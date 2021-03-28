@@ -4,14 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="" />
-    <link rel="stylesheet" type="text/css" href="styles.css" />
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <title>//TODO Title</title>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles\styles.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <title>To do</title>
   </head>
   <body>
-    <header>Header Content</header>
-    <main>Main Content</main>
-    <footer>Footer Content</footer>
-    <script src="scripts.js"></script>
+    <header>Tasks</header>
+    <main><ul id="task-list"></ul></main>
+    <footer>
+      <form id="add-task-form">
+        <input type="text" name="taskName" placeholder="Add a task" required/>
+        <input type="date" name="dateDue" required/>
+        <button>Add a task</button>
+      </form>
+    </footer>
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyCHcibKMPMCmh9d4cHXuwO9fdlC5Fr9H-w",
+        authDomain: "cpsc349project1todo.firebaseapp.com",
+        projectId: "cpsc349project1todo",
+        storageBucket: "cpsc349project1todo.appspot.com",
+        messagingSenderId: "922401505847",
+        appId: "1:922401505847:web:34d8abc94b02b5450775b2",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+      db.settings({ timestampsInSnapshots: true });
+    </script>
+    <script src="scripts\app.js"></script>
   </body>
 </html>
