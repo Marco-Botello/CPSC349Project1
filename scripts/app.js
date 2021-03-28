@@ -18,7 +18,7 @@ function renderTask(doc) {
     li.setAttribute("data-id", doc.id);
     task.textContent = doc.data().taskName;
     date.textContent = doc.data().dueDate;
-    checkmark.textContent = "x";
+    checkmark.textContent = "X";
 
     li.appendChild(task);
     li.appendChild(date);
@@ -27,6 +27,11 @@ function renderTask(doc) {
     taskList.appendChild(li);
 
     //to do delete data
+    checkmark.addEventListener("click", (e) => {
+        e.stopPropagation();
+        let id = e.target.parentElement.getAttribute("data-id");
+        db.collection("tasks").doc(id).delete();
+    })
 }
 
 
