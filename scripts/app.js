@@ -1,15 +1,9 @@
 const taskList = document.querySelector("#task-list");
+const completeList = document.querySelector("#task-list-finished");
 const form = document.querySelector("#add-task-form");
 
-function toDateTime(secs) {
-    var t = new Date(1970, 0, 1);
-    t.setSeconds(secs);
-    return t;
-}
-
-
+//Renders a single task from a firestore document
 function renderTask(doc) {
-    console.log(doc.data());
     let li = document.createElement('li');
     let task = document.createElement('div');
     let date = document.createElement('div');
@@ -24,17 +18,32 @@ function renderTask(doc) {
     li.appendChild(date);
     li.appendChild(checkmark);
 
-    taskList.appendChild(li);
 
-    //to do delete data
+    if(doc.data().isComplete==false) {
+        taskList.appendChild(li);
+    } else {
+        console.log(doc.data());
+        console.log(li);
+        completeList.appendChild(li);
+    }
+
+    //'X' click handler
     checkmark.addEventListener("click", (e) => {
         e.stopPropagation();
         let id = e.target.parentElement.getAttribute("data-id");
-        db.collection("tasks").doc(id).delete();
+        db.collection("tasks").doc(id).get().then((doc) => {
+            let taskName = doc.data().taskName;
+            let dueDate = doc.data().dueDate;
+            let toggleBool = !doc.data().isComplete;
+            db.collection("tasks").doc(id).set({
+                taskName: taskName,
+                dueDate: dueDate,
+                isComplete: toggleBool,
+            })
+        })
+        e.target.parentElement.remove();
     })
 }
-
-
 
 //real time data fetching
 db.collection('tasks').orderBy('dueDate').onSnapshot(snapshot => {
@@ -42,14 +51,18 @@ db.collection('tasks').orderBy('dueDate').onSnapshot(snapshot => {
     changes.forEach(change => {
         if(change.type == 'added') {
             renderTask(change.doc);
-        } else if(change.type == 'removed'){
+        }
+        else if(change.type =='modified') {
+            renderTask(change.doc);
+        }
+        else if(change.type == 'removed'){
             let li = taskList.querySelector('[data-id=' + change.doc.id + ']');
             taskList.removeChild(li);
         }
     })
 })
 
-//to do: write data
+//write data to firestore
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     console.log('hello');

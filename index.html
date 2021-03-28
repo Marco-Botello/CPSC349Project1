@@ -14,13 +14,17 @@
     />
     <title>To do</title>
   </head>
-  <body>
-    <header>Tasks</header>
-    <main><ul id="task-list"></ul></main>
+  <body class="container">
+    <h1>Tasks</h1>
+    <main>
+      <ul id="task-list"></ul>
+      <h1>Completed</h1>
+      <ul id="task-list-finished"></ul>
+    </main>
     <footer>
       <form id="add-task-form">
-        <input type="text" name="taskName" placeholder="Add a task" required/>
-        <input type="date" name="dateDue" required/>
+        <input type="text" name="taskName" placeholder="Add a task" required />
+        <input type="date" name="dateDue" required />
         <button>Add a task</button>
       </form>
     </footer>
