@@ -5,18 +5,20 @@ const form = document.querySelector("#add-task-form");
 //Renders a single task from a firestore document
 function renderTask(doc) {
     let li = document.createElement('li');
-    let task = document.createElement('div');
-    let date = document.createElement('div');
-    let checkmark = document.createElement('div');
+    let task = document.createElement('span');
+    let date = document.createElement('span');
+    let checkmark = document.createElement('span');
 
     li.setAttribute("data-id", doc.id);
+    li.setAttribute("class", "list-group-item list-group-item-action");
     task.textContent = doc.data().taskName;
     date.textContent = doc.data().dueDate;
     checkmark.textContent = "X";
 
+    li.appendChild(checkmark);
     li.appendChild(task);
     li.appendChild(date);
-    li.appendChild(checkmark);
+
 
 
     if(doc.data().isComplete==false) {
