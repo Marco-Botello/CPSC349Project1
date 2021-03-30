@@ -7,6 +7,7 @@ function renderTask(doc) {
     let li = document.createElement('li');
     let task = document.createElement('span');
     let date = document.createElement('span');
+    let calendar = document.createElement('img');
     let checkmark = document.createElement('img');
     let trash = document.createElement('img');
 
@@ -14,26 +15,31 @@ function renderTask(doc) {
     li.setAttribute("class", "list-group-item list-group-item-action");
     task.textContent = doc.data().taskName;
     date.textContent = doc.data().dueDate;
-    task.setAttribute("class", "float-none pr-3");
+    task.setAttribute("class", "text-capitalize float-none pr-3");
     trash.setAttribute("src", "img/icons/trash.svg");
+    calendar.setAttribute("src", "img/icons/calendar.svg")
     trash.setAttribute("class", "float-right");
+    date.setAttribute("class", "float-right mr-5");
+    calendar.setAttribute("class", "float-right pr-2");
     checkmark.setAttribute("class", "float-left pr-3");
 
     //If the task is uncomplete, add it to the uncomplete list. Otherwise add it to the complete list.
     if(doc.data().isComplete==false) {
         checkmark.setAttribute("src", "img/icons/circle.svg");
-
         li.appendChild(checkmark);
         li.appendChild(task);
-        li.appendChild(date);
         li.appendChild(trash);
+        li.appendChild(date);
+        li.appendChild(calendar);
         taskList.appendChild(li);
     } else {
         checkmark.setAttribute("src", "img/icons/check-circle-fill.svg");
+        task.setAttribute("style", "text-decoration: line-through;");
         li.appendChild(checkmark);
         li.appendChild(task);
-        li.appendChild(date);
         li.appendChild(trash);
+        li.appendChild(date);
+        li.appendChild(calendar);
         completeList.appendChild(li);
     }
 
@@ -75,7 +81,6 @@ function renderTask(doc) {
             e.target.setAttribute("src", "img/icons/circle.svg");
         }
     })
-
 
     //Checkmark hover effect- circle becomes a checkmark on mouse hover
     trash.addEventListener("mouseenter", (e) => {
