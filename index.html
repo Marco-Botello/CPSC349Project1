@@ -6,12 +6,13 @@
     <meta name="description" content="" />
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.1/firebase-firestore.js"></script>
-    <link rel="stylesheet" type="text/css" href="styles\styles.css" />
+
     <link
       rel="stylesheet"
       type="text/css"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
+    <link rel="stylesheet" type="text/css" href="styles\styles.css" />
     <title>To do</title>
   </head>
   <body class="container">
@@ -22,10 +23,10 @@
       <ul class="list-group" id="task-list-finished"></ul>
     </main>
     <footer>
-      <form id="add-task-form">
-        <input type="text" name="taskName" placeholder="Add a task" required />
-        <input type="date" name="dateDue" required />
-        <button>Add a task</button>
+      <form id="add-task-form" class="form-inline">
+        <input type="text" name="taskName" placeholder="Add a task" class = "form-control mr-2 mt-2" required />
+        <input type="date" name="dateDue" class = "form-control mr-2 mt-2" required />
+        <button class="btn btn-primary mt-2">Add a task</button>
       </form>
     </footer>
     <script>

@@ -14,11 +14,15 @@ function renderTask(doc) {
     li.setAttribute("class", "list-group-item list-group-item-action");
     task.textContent = doc.data().taskName;
     date.textContent = doc.data().dueDate;
+    task.setAttribute("class", "float-none pr-3");
     trash.setAttribute("src", "img/icons/trash.svg");
+    trash.setAttribute("class", "float-right");
+    checkmark.setAttribute("class", "float-left pr-3");
 
     //If the task is uncomplete, add it to the uncomplete list. Otherwise add it to the complete list.
     if(doc.data().isComplete==false) {
         checkmark.setAttribute("src", "img/icons/circle.svg");
+
         li.appendChild(checkmark);
         li.appendChild(task);
         li.appendChild(date);
@@ -50,6 +54,7 @@ function renderTask(doc) {
         e.target.parentElement.remove();
     })
 
+    //Delete task click handler - remove task if executed.
     trash.addEventListener("click", (e) => {
         e.stopPropagation();
         let id = e.target.parentElement.getAttribute("data-id");
