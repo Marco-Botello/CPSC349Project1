@@ -1,6 +1,6 @@
 # Tuffy Tasks
 ![Tuffy Tasks](img/Tuffy-HSh.png)
-Tuffy Tasks helps you plan your day!
+
 ## Manage your to do list online
 A truly cross platform task manager. Manage your tasks from your phone or desktop.
 ## Make managing tasks easier
