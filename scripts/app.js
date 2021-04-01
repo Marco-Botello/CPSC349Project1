@@ -1,6 +1,7 @@
 const taskList = document.querySelector("#task-list");
 const completeList = document.querySelector("#task-list-finished");
 const form = document.querySelector("#add-task-form");
+const liElement = document.querySelector(".list-group-item-action");
 
 //Renders a single task from a firestore document
 function renderTask(doc) {
@@ -127,3 +128,21 @@ form.addEventListener("submit", (e) => {
     form.dateDue.value = "";
   });
 
+
+function closeModal() {
+    document.getElementById("backdrop").style.display = "none"
+    document.getElementById("exampleModal").style.display = "none"
+    document.getElementById("exampleModal").className += document.getElementById("exampleModal").className.replace("show", "")
+}
+
+taskList.addEventListener('click', (e) => {
+    let id = e['srcElement'].getAttribute('data-id');
+    db.collection('tasks').doc(id).get().then((snapshot) => {
+        console.log(snapshot.data());
+        let editForm = document.querySelector('#edit-task-form');
+        editForm['edit-task-name'].value = snapshot.data().taskName;
+        editForm['edit-task-date'].value = snapshot.data().dueDate;
+        var myModal = new bootstrap.Modal(document.getElementById('model-edit'), 'focus');
+        myModal.show();
+    });
+});
