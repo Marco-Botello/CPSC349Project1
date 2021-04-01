@@ -128,13 +128,7 @@ form.addEventListener("submit", (e) => {
     form.dateDue.value = "";
   });
 
-
-function closeModal() {
-    document.getElementById("backdrop").style.display = "none"
-    document.getElementById("exampleModal").style.display = "none"
-    document.getElementById("exampleModal").className += document.getElementById("exampleModal").className.replace("show", "")
-}
-
+// Edit task modal handler
 taskList.addEventListener('click', (e) => {
     let id = e['srcElement'].getAttribute('data-id');
     db.collection('tasks').doc(id).get().then((snapshot) => {
