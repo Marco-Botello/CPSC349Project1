@@ -82,12 +82,12 @@ function renderTask(doc) {
         }
     })
 
-    //Checkmark hover effect- circle becomes a checkmark on mouse hover
+    //Trash can hover effect- trashcan color inversion on mouse hover
     trash.addEventListener("mouseenter", (e) => {
         e.stopPropagation();
         e.target.setAttribute("src", "img/icons/trash-fill.svg");
     })
-    //Checkmark hover effect - checkmark goes back to a circle after mouse leaving
+    //Trash can hover effect - trashcan color returns to default after mouse leaving
     trash.addEventListener("mouseleave", (e) => {
         e.stopPropagation();
         e.target.setAttribute("src", "img/icons/trash.svg");
