@@ -68,7 +68,7 @@ h1 {
   margin: 0px;
   font-size: 7.5vw 7.5vh; 
   font-family: Raleway-Bold;
-  color: navy;
+  color: rgb(98, 98, 155);
   text-shadow: .14vw .14vw darkorange;
 }
 
@@ -335,11 +335,11 @@ iframe {
 }
 
 .btn-show-pass:hover {
-  color: #57b846;
+  color: darkorange;
 }
 
 .btn-show-pass.active {
-  color: #57b846;
+  color: darkorange;
 }
 
 /*==================================================================
