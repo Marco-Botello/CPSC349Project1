@@ -18,7 +18,7 @@ function renderTask(doc) {
     date.textContent = doc.data().dueDate;
     task.setAttribute("class", "text-capitalize float-none pr-3");
     trash.setAttribute("src", "img/icons/trash.svg");
-    calendar.setAttribute("src", "img/icons/calendar.svg")
+    calendar.setAttribute("src", "img/icons/calendar.svg");
     trash.setAttribute("class", "float-right");
     date.setAttribute("class", "float-right mr-5");
     calendar.setAttribute("class", "float-right pr-2");
@@ -67,7 +67,6 @@ function renderTask(doc) {
         let id = e.target.parentElement.getAttribute("data-id");
         db.collection("tasks").doc(id).delete();
       });
-
     //Checkmark hover effect- circle becomes a checkmark on mouse hover
     checkmark.addEventListener("mouseenter", (e) => {
         e.stopPropagation();
