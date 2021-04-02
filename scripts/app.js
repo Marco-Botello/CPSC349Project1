@@ -1,11 +1,34 @@
 const db = firebase.firestore();
+const auth = firebase.auth();
 db.settings({ timestampsInSnapshots: true });
 
-const auth = firebase.auth(); // <-- Potential problem line
+var userId;
 
-window.addEventListener('load', (event) => {
-    console.log(firebase.auth().currentUser.uid);
-}); 
+firebase.auth().onAuthStateChanged(user => {
+    if(user) {
+        userId = auth.currentUser.uid;
+
+        db.collection("users").doc(userId).collection("tasks").orderBy("dueDate").onSnapshot(snapshot => {
+            snapshot.docChanges().forEach(change => {
+                if(change.type == 'added') {
+                    renderTask(change.doc);
+                }
+                else if(change.type =='modified') {
+                    renderTask(change.doc);
+                }
+                else if(change.type == 'removed'){
+                    console.log('Remove detected: ');
+                    console.log('[data-id=' + change.doc.id + ']');
+                    let li = document.querySelectorAll("[data-id=\"" + change.doc.id + "\"]");
+                    console.log(li[0]);
+                    li[0].parentNode.removeChild(li[0]);
+                }
+            });
+        });
+    } else {
+        window.location = "login.html";
+    }
+});
 
 const taskList = document.querySelector("#task-list");
 const completeList = document.querySelector("#task-list-finished");
@@ -67,77 +90,57 @@ function renderTask(doc) {
     checkmark.addEventListener("click", (e) => {
         e.stopPropagation();
         let id = e.target.parentElement.getAttribute("data-id");
-        db.collection("tasks").doc(id).get().then((doc) => {
+        db.collection("users").doc(userId).collection("tasks").doc(id).get().then((doc) => {
             let taskName = doc.data().taskName;
             let dueDate = doc.data().dueDate;
             let toggleBool = !doc.data().isComplete;
-            db.collection("tasks").doc(id).set({
+            db.collection("users").doc(userId).collection("tasks").doc(id).set({
                 taskName: taskName,
                 dueDate: dueDate,
                 isComplete: toggleBool,
-            })
-        })
+            });
+        });
         e.target.parentElement.remove();
-    })
+    });
 
     //Delete task click handler - remove task if executed.
     trash.addEventListener("click", (e) => {
         e.stopPropagation();
         let id = e.target.parentElement.getAttribute("data-id");
-        db.collection("tasks").doc(id).delete();
-      });
+        db.collection("users").doc(userId).collection("tasks").doc(id).delete();
+    });
     //Checkmark hover effect- circle becomes a checkmark on mouse hover
     checkmark.addEventListener("mouseenter", (e) => {
         e.stopPropagation();
         if(e.target.parentElement.parentElement.getAttribute("id") === "task-list") {
             e.target.setAttribute("src", "img/icons/check-circle.svg");
         }
-    })
+    });
     //Checkmark hover effect - checkmark goes back to a circle after mouse leaving
     checkmark.addEventListener("mouseleave", (e) => {
         e.stopPropagation();
         if(e.target.parentElement.parentElement.getAttribute("id") === "task-list") {
             e.target.setAttribute("src", "img/icons/circle.svg");
         }
-    })
+    });
 
     //Trash can hover effect- trashcan color inversion on mouse hover
     trash.addEventListener("mouseenter", (e) => {
         e.stopPropagation();
         e.target.setAttribute("src", "img/icons/trash-fill.svg");
-    })
+    });
     //Trash can hover effect - trashcan color returns to default after mouse leaving
     trash.addEventListener("mouseleave", (e) => {
         e.stopPropagation();
         e.target.setAttribute("src", "img/icons/trash.svg");
-    })
+    });
 }
-
-//real time data fetching
-db.collection('tasks').orderBy('dueDate').onSnapshot(snapshot => {
-    let changes = snapshot.docChanges();
-    changes.forEach(change => {
-        if(change.type == 'added') {
-            renderTask(change.doc);
-        }
-        else if(change.type =='modified') {
-            renderTask(change.doc);
-        }
-        else if(change.type == 'removed'){
-            console.log('Remove detected: ');
-            console.log('[data-id=' + change.doc.id + ']');
-            let li = document.querySelectorAll('[data-id=' + change.doc.id + ']');
-            console.log(li[0]);
-            li[0].parentNode.removeChild(li[0]);
-        }
-    })
-})
 
 //write data to firestore
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     console.log('hello');
-    db.collection("tasks").add({
+    db.collection("users").doc(userId).collection("tasks").add({
       taskName: form.taskName.value,
       dueDate: form.dateDue.value,
       isComplete: false,
