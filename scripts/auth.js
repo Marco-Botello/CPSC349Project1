@@ -1,9 +1,12 @@
+window.addEventListener('load', (event) => {
+    console.log(firebase.auth().currentUser.uid);
+}); 
+
+const auth = firebase.auth();
+
 const userForm = document.querySelector('#user-form');
 const createAccountButton = document.querySelector('#btn-create-account');
 const loginButton = document.querySelector('#btn-login');
-
-console.log(createAccountButton);
-console.log(loginButton);
 
 //Listener for when user clicks create account btn
 createAccountButton.addEventListener("click", (e) => {
@@ -17,13 +20,13 @@ createAccountButton.addEventListener("click", (e) => {
 
     // Clear form
     auth.createUserWithEmailAndPassword(email, password).then(userCredential => {
-         console.log(userCredential);
-         userForm.reset();
-      })
-      .catch((error) => {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-      });
+        console.log(userCredential);
+        userForm.reset();
+    })
+    .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+    });
 });
 
 //Listener for when user clicks login
@@ -35,9 +38,12 @@ loginButton.addEventListener("click", (e) => {
 
     auth.signInWithEmailAndPassword(email, password).then(userCredential => {
         console.log(userCredential);
+        console.log(firebase.auth().currentUser.uid);
+        userForm.reset();
     })
     .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
     });
 });
+
