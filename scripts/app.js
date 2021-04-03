@@ -152,7 +152,7 @@ form.addEventListener("submit", (e) => {
 // Edit task modal handler
 taskList.addEventListener('click', (e) => {
     let id = e['srcElement'].getAttribute('data-id');
-    db.collection('tasks').doc(id).get().then((snapshot) => {
+    db.collection("users").doc(userId).collection('tasks').doc(id).get().then((snapshot) => {
         console.log(snapshot.data());
         let editForm = document.querySelector('#edit-task-form');
         editForm['edit-task-name'].value = snapshot.data().taskName;
