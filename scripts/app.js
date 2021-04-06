@@ -14,13 +14,12 @@ firebase.auth().onAuthStateChanged(user => {
                     renderTask(change.doc);
                 }
                 else if(change.type =='modified') {
+                    //let li = document.querySelectorAll("[data-id=\"" + change.doc.id + "\"]");
+                    //li[0].parentNode.removeChild(li[0]);
                     renderTask(change.doc);
                 }
                 else if(change.type == 'removed'){
-                    console.log('Remove detected: ');
-                    console.log('[data-id=' + change.doc.id + ']');
                     let li = document.querySelectorAll("[data-id=\"" + change.doc.id + "\"]");
-                    console.log(li[0]);
                     li[0].parentNode.removeChild(li[0]);
                 }
             });
@@ -139,7 +138,6 @@ function renderTask(doc) {
 //write data to firestore
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    console.log('hello');
     db.collection("users").doc(userId).collection("tasks").add({
       taskName: form.taskName.value,
       dueDate: form.dateDue.value,
@@ -150,15 +148,36 @@ form.addEventListener("submit", (e) => {
   });
 
 // Edit task modal handler
+const modalSave = document.querySelector("#modalSave");
 taskList.addEventListener('click', (e) => {
     let id = e['srcElement'].getAttribute('data-id');
     db.collection("users").doc(userId).collection('tasks').doc(id).get().then((snapshot) => {
-        console.log(snapshot.data());
         let editForm = document.querySelector('#edit-task-form');
         editForm['edit-task-name'].value = snapshot.data().taskName;
+        editForm.setAttribute("data-id", id);
         editForm['edit-task-date'].value = snapshot.data().dueDate;
         var myModal = new bootstrap.Modal(document.getElementById('model-edit'), 'focus');
         myModal.show();
+    });
+});
+
+// Edit task modal save button
+modalSave.addEventListener('click', (e) => {
+    e.preventDefault();
+    let editForm = document.querySelector('#edit-task-form');
+    let id = editForm.getAttribute("data-id");
+    db.collection("users").doc(userId).collection('tasks').doc(id).update({
+        taskName: editForm['edit-task-name'].value,
+        dueDate: editForm['edit-task-date'].value
+    }).then(() => {
+        let li = document.querySelector(`[data-id="${id}"]`);
+        li.remove();
+        let alert = document.querySelector('#alert-success');
+        alert.setAttribute("style", "display:block");
+        var myAlert = new bootstrap.Alert(document.getElementById('alert-success'));
+        setTimeout(()=>{
+            alert.setAttribute("style", "visibility:hidden");
+        }, 3000);
     });
 });
 
