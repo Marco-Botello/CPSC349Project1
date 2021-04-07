@@ -36,11 +36,15 @@
     <ul class="list-group rounded-bottom user-select-none" id="task-list"></ul>
     <h1 class="text-light mt-3 user-select-none">Completed</h1>
     <ul class="list-group pb-5 mb-5" id="task-list-finished"></ul>
-    <form id="add-task-form" class="form-inline container fixed-bottom pb-2">
-      <label class="sr-only" for="taskName">Task Name</label>
-      <input type="text" name="taskName" placeholder="Add a task" class="form-control border-right-0 mt-2 w-50" required />
-      <input type="date" name="dateDue" class="form-control border-left-0 mr-2 mt-2 w-25" required />
-      <button class="btn btn-primary mt-2 rounded">Add task</button>
+
+    <form id="add-task-form" class="form-inline container fixed-bottom pb-2 ">
+        <button class="btn btn-dark rounded-left"type="button">Add task</button>
+        <input type="text" name="taskName" placeholder="Add a task" class="form-control border-right-0 flex-fill" required />
+        <input type="date" name="dateDue" class="form-control border-left-0 rounded-right  mw-20" placeholder="" />
+      <!-- <label class="sr-only" for="taskName">Task Name</label>
+      <input type="text" name="taskName" placeholder="Add a task" class="form-control border-right-0 mt-2 w-75" required />
+      <input type="date" name="dateDue" class="form-control border-left-0 mt-2 w-25" placeholder="" /> -->
+      <!-- <button class="btn btn-primary mt-2 rounded">Add task</button> -->
     </form>
   </main>
   <!-- Modal -->
