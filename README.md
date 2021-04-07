@@ -9,3 +9,5 @@ Break tasks down into simple steps and add due dates.
 ![Built with Firebase](img/Built_with_Firebase_Logo_Dark.png)
 ## Made with Bootstrap
 ![Made with Bootstrap](img/bootstrap.png)
+## Additional Resources
+Used Colorlib for basic layout and idea for Tuffy Tasks Login page
